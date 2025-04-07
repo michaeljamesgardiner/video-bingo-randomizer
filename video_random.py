@@ -3,8 +3,7 @@ import random
 import sys
 import moviepy
 from datetime import datetime
-#mg20250331
-from moviepy import concatenate_videoclips
+from moviepy.editor import concatenate_videoclips
 from moviepy.video.io.VideoFileClip import VideoFileClip
 
 
@@ -12,11 +11,11 @@ INPUT_PATH =r"C:\Users\micha\Desktop\input"
 OUT_PATH = r"C:\Users\micha\Desktop"
 
 
-def get_all_file_paths(directory):
+def get_all_file_paths(directory, file_type):
   file_paths = []
   for root, dirs, files in os.walk(directory):
     for file in files:
-      if file.endswith(".mp4"):
+      if file.endswith(file_type):
         file_paths.append(os.path.join(root, file))
   return file_paths
 
@@ -36,20 +35,32 @@ if __name__ == '__main__':
  `--'  `--' `---' `----' `---'   `---' `--'`--''--'.`- / `---' 
                              `---'     
 """)
-  input("this is a test")
-  onlyfiles = []
-  onlyfiles = get_all_file_paths(INPUT_PATH)
+  imagefiles = []
+  imagefiles = get_all_file_paths(INPUT_PATH, ".jpg")
+  videofiles = []
+  videofiles = get_all_file_paths(INPUT_PATH, ".mp4")
 
-  if not onlyfiles:
+  if not videofiles:
     print("I couldn't find any video files :(")
     sys.exit(-1)
 
-  print("Found %d videos to shuffle" % (len(onlyfiles)))
+print("Found %d videos to shuffle" % (len(videofiles)))
+print("Found %d images to shuffle" % (len(imagefiles)))
 
-  random.shuffle(onlyfiles)
+if len(imagefiles) != len(videofiles) and len(imagefiles) > 0:
+  print("Found %d videos and %d images, image and video count must match if images present in input folder" % (len(videofiles),(len(imagefiles))))
+  sys.exit(-2)
+
+
+
+
+
+
+if len(imagefiles) == 0 and len(videofiles) > 0:
+  random.shuffle(videofiles)
   video_file_list = []
 
-  for i in onlyfiles:
+  for i in videofiles:
     try:
       video_file_list.append(VideoFileClip(i))
     except:
@@ -71,4 +82,3 @@ if __name__ == '__main__':
   except:
     print("There was a problem creating the video file :(")
     raise
-
