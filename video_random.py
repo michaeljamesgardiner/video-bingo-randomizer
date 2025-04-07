@@ -6,10 +6,8 @@ from datetime import datetime
 from moviepy.editor import concatenate_videoclips
 from moviepy.video.io.VideoFileClip import VideoFileClip
 
-
 INPUT_PATH =r"C:\Users\micha\Desktop\input"
 OUT_PATH = r"C:\Users\micha\Desktop"
-
 
 def get_all_file_paths(directory, file_type):
   file_paths = []
@@ -19,26 +17,30 @@ def get_all_file_paths(directory, file_type):
         file_paths.append(os.path.join(root, file))
   return file_paths
 
-
 def make_filename(d):
   date_str = d.strftime("%B_%y-%m-%d")
   filename = "VIDEO_BINGO_%s.mp4" % (date_str, )
   return os.path.join(OUT_PATH, filename)
 
-
 if __name__ == '__main__':
   print("""
-     ,--.  ,--.         ,--.  ,--.            
-,--. ,--.`--' ,-| | ,---. ,---.   | |-. `--',--,--, ,---. ,---. 
-\ `' / ,--.' .-. || .-. :| .-. |  | .-. ',--.|   \| .-. || .-. | 
- \  / | |\ `-' |\  --.' '-' '  | `-' || || || |' '-' '' '-' ' 
- `--'  `--' `---' `----' `---'   `---' `--'`--''--'.`- / `---' 
-                             `---'     
+  o              o   __o__   o__ __o        o__ __o__/_   o__ __o            o__ __o    __o__   o          o        o__ __o           o__ __o      
+ <|>            <|>    |    <|     v\      <|    v       /v     v\          <|     v\     |    <|\        <|>      /v     v\         /v     v\     
+ < >            < >   / \   / \     <\     < >          />       <\         / \     <\   / \   / \\o      / \     />       <\       />       <\    
+  \o            o/    \o/   \o/       \o    |         o/           \o       \o/     o/   \o/   \o/ v\     \o/   o/                o/           \o  
+   v\          /v      |     |         |>   o__/_    <|             |>       |__  _<|     |     |   <\     |   <|       _\__o__  <|             |> 
+    <\        />      < >   / \       //    |         \\           //        |       \   < >   / \    \o  / \   \\          |     \\           //  
+      \o    o/         |    \o/      /     <o>          \         /         <o>      /    |    \o/     v\ \o/     \         /       \         /    
+       v\  /v          o     |      o       |            o       o           |      o     o     |       <\ |       o       o         o       o     
+        <\/>         __|>_  / \  __/>      / \  _\o__/_  <\__ __/>          / \  __/>   __|>_  / \        < \      <\__ __/>         <\__ __/>     
+                                                                                                                                                  
 """)
+
   imagefiles = []
   imagefiles = get_all_file_paths(INPUT_PATH, ".jpg")
   videofiles = []
   videofiles = get_all_file_paths(INPUT_PATH, ".mp4")
+  videofiles = [file for file in videofiles if "begin.mp4" not in file and "end.mp4" not in file]
 
   if not videofiles:
     print("I couldn't find any video files :(")
@@ -51,13 +53,19 @@ if len(imagefiles) != len(videofiles) and len(imagefiles) > 0:
   print("Found %d videos and %d images, image and video count must match if images present in input folder" % (len(videofiles),(len(imagefiles))))
   sys.exit(-2)
 
-
-
-
-
-
 if len(imagefiles) == 0 and len(videofiles) > 0:
   random.shuffle(videofiles)
+
+  for item in get_all_file_paths(INPUT_PATH, ".mp4"):
+    if "begin.mp4" in item:
+      print(item)
+      videofiles.insert(0, item)
+
+  for item in get_all_file_paths(INPUT_PATH, ".mp4"):
+    if "end.mp4" in item:
+      print(item)
+      videofiles.insert(len(get_all_file_paths(INPUT_PATH, ".mp4")), item)
+
   video_file_list = []
 
   for i in videofiles:
