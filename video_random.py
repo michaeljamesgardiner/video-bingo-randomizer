@@ -4,12 +4,12 @@ import sys
 import moviepy
 from datetime import datetime
 #mg20250331
-from moviepy.editor import concatenate_videoclips
+from moviepy import concatenate_videoclips
 from moviepy.video.io.VideoFileClip import VideoFileClip
 
 
-INPUT_PATH =r"C:\micha\Desktop\input"
-OUT_PATH = r"C:\micha\Desktop"
+INPUT_PATH =r"C:\Users\micha\Desktop\input"
+OUT_PATH = r"C:\Users\micha\Desktop"
 
 
 def get_all_file_paths(directory):
@@ -36,7 +36,7 @@ if __name__ == '__main__':
  `--'  `--' `---' `----' `---'   `---' `--'`--''--'.`- / `---' 
                              `---'     
 """)
-
+  input("this is a test")
   onlyfiles = []
   onlyfiles = get_all_file_paths(INPUT_PATH)
 
@@ -71,3 +71,4 @@ if __name__ == '__main__':
   except:
     print("There was a problem creating the video file :(")
     raise
+
