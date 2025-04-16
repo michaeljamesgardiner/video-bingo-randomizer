@@ -6,7 +6,7 @@ from moviepy.editor import concatenate_videoclips
 from moviepy.video.io.VideoFileClip import VideoFileClip
 from moviepy.editor import ImageClip
 from pathlib import Path
-
+#clean
 INPUT_PATH =r"C:\Users\micha\Desktop\input"
 OUT_PATH = r"C:\Users\micha\Desktop"
 
